@@ -1,0 +1,84 @@
+.wrapper {
+  position: relative;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: color 120ms ease-out, background 120ms ease-out;
+}
+
+.trigger:hover {
+  color: var(--text-primary);
+  background: var(--bg-elem);
+}
+
+.popover {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  width: 280px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 30;
+  animation: slide-down 150ms ease-out;
+}
+
+.popText {
+  font-size: 12px;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.url {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.popActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.popBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: background 120ms ease-out, color 120ms ease-out;
+}
+
+.btnPrimary {
+  background: var(--accent-blue);
+  color: #fff;
+}
+.btnPrimary:hover {
+  background: #2563eb;
+}
+
+.btnGhost {
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btnGhost:hover {
+  color: var(--text-primary);
+  background: var(--bg-elem);
+}
