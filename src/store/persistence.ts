@@ -44,7 +44,19 @@ function isSettings(value: unknown): value is AppSettings {
 }
 
 export async function hydrateStore(): Promise<void> {
-  const store = await getStore();
+  let store: Store;
+  try {
+    store = await getStore();
+  } catch (err) {
+    console.warn("Tauri store unavailable, using defaults", err);
+    useAppStore.setState({
+      presets: DEFAULT_PRESETS,
+      activePresetId: DEFAULT_PRESETS[0]?.id ?? null,
+      settings: DEFAULT_SETTINGS,
+      hydrated: true,
+    });
+    return;
+  }
 
   const rawPresets = await store.get<unknown>(KEY_PRESETS);
   let presets: Preset[];

@@ -98,7 +98,11 @@ export default function App() {
         if (settingsOpen) setSettingsOpen(false);
         else if (logOpen) setLogOpen(false);
         else if (status.running && settings.minimizeToTray) {
-          await getCurrentWindow().hide();
+          try {
+            await getCurrentWindow().hide();
+          } catch (err) {
+            console.warn("hide window failed", err);
+          }
         }
       }
     };

@@ -2,8 +2,17 @@ import { Minus, X, Hexagon } from "lucide-react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import styles from "./TitleBar.module.css";
 
+async function safeWindowAction(action: "minimize" | "close"): Promise<void> {
+  try {
+    const win = getCurrentWindow();
+    if (action === "minimize") await win.minimize();
+    else await win.close();
+  } catch (err) {
+    console.warn("window action unavailable", err);
+  }
+}
+
 export function TitleBar() {
-  const win = getCurrentWindow();
   return (
     <div className={styles.bar} data-tauri-drag-region>
       <div className={styles.brand} data-tauri-drag-region>
@@ -14,14 +23,14 @@ export function TitleBar() {
         <button
           aria-label="Свернуть"
           className={styles.btn}
-          onClick={() => void win.minimize()}
+          onClick={() => void safeWindowAction("minimize")}
         >
           <Minus size={14} />
         </button>
         <button
           aria-label="Закрыть"
           className={`${styles.btn} ${styles.close}`}
-          onClick={() => void win.close()}
+          onClick={() => void safeWindowAction("close")}
         >
           <X size={14} />
         </button>
