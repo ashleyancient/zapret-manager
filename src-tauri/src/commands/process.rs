@@ -58,7 +58,6 @@ pub async fn start_zapret(
 
     #[cfg(target_os = "windows")]
     {
-        use std::os::windows::process::CommandExt;
         // CREATE_NO_WINDOW
         cmd.creation_flags(0x0800_0000);
     }
