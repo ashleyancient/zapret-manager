@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Settings as SettingsIcon, ScrollText } from "lucide-react";
+import { Settings as SettingsIcon, ScrollText, FolderSearch } from "lucide-react";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { getVersion } from "@tauri-apps/api/app";
@@ -10,6 +10,7 @@ import { PresetList } from "./components/PresetList/PresetList";
 import { LogPanel } from "./components/LogPanel/LogPanel";
 import { Settings } from "./components/Settings/Settings";
 import { UpdateButton } from "./components/UpdateButton/UpdateButton";
+import { BatScanner } from "./components/BatScanner/BatScanner";
 import { useAppStore } from "./store/appStore";
 import { hydrateStore, persistSettings } from "./store/persistence";
 import { usePresets } from "./hooks/usePresets";
@@ -29,6 +30,7 @@ export default function App() {
 
   const [logOpen, setLogOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const [appVersion, setAppVersion] = useState("0.1.0");
 
   useEffect(() => {
@@ -99,7 +101,8 @@ export default function App() {
   useEffect(() => {
     const handler = async (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (settingsOpen) setSettingsOpen(false);
+        if (scannerOpen) setScannerOpen(false);
+        else if (settingsOpen) setSettingsOpen(false);
         else if (logOpen) setLogOpen(false);
         else if (status.running && settings.minimizeToTray) {
           try {
@@ -112,7 +115,7 @@ export default function App() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [settingsOpen, logOpen, status.running, settings.minimizeToTray]);
+  }, [scannerOpen, settingsOpen, logOpen, status.running, settings.minimizeToTray]);
 
   if (!hydrated) {
     return (
@@ -167,6 +170,15 @@ export default function App() {
           <ScrollText size={14} />
           <span>{settings.language === "ru" ? "Лог" : "Log"}</span>
         </button>
+        <button
+          type="button"
+          className={styles.toolBtn}
+          onClick={() => setScannerOpen(true)}
+          title={settings.language === "ru" ? "Импорт .bat пресетов из папки zapret" : "Import .bat presets from zapret folder"}
+        >
+          <FolderSearch size={14} />
+          <span>{settings.language === "ru" ? "Поиск .bat" : "Find .bat"}</span>
+        </button>
         <UpdateButton language={settings.language} />
       </footer>
       <LogPanel
@@ -183,6 +195,18 @@ export default function App() {
           language={settings.language}
           onChange={changeSettings}
           onClose={() => setSettingsOpen(false)}
+        />
+      )}
+      {scannerOpen && (
+        <BatScanner
+          initialPath=""
+          winwsPath={settings.winwsPath}
+          language={settings.language}
+          onClose={() => setScannerOpen(false)}
+          onImport={async (data) => {
+            const p = await create(data);
+            if (!activePresetId) await setActive(p.id);
+          }}
         />
       )}
     </div>
