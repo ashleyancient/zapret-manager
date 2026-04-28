@@ -49,6 +49,7 @@ pub fn run() {
             commands::process::clear_logs,
             commands::system::check_winws,
             commands::system::default_winws_path,
+            commands::system::kill_orphan_winws,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

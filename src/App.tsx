@@ -3,6 +3,7 @@ import { Settings as SettingsIcon, ScrollText } from "lucide-react";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { getVersion } from "@tauri-apps/api/app";
+import { invoke } from "@tauri-apps/api/core";
 import { TitleBar } from "./components/TitleBar/TitleBar";
 import { StatusCard } from "./components/StatusCard/StatusCard";
 import { PresetList } from "./components/PresetList/PresetList";
@@ -33,6 +34,9 @@ export default function App() {
   useEffect(() => {
     void hydrateStore();
     void getVersion().then(setAppVersion).catch(() => undefined);
+    // Reap any leftover winws.exe from a previous app session that would
+    // otherwise hold the WinDivert filter and prevent us from starting.
+    void invoke<number>("kill_orphan_winws").catch(() => undefined);
   }, []);
 
   useEffect(() => {

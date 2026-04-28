@@ -6,28 +6,37 @@ export const DEFAULT_PRESETS: Preset[] = [
   {
     id: uuid(),
     name: "YouTube + Discord",
-    args: "--dpi-desync=split2 --dpi-desync-split-pos=2 --dpi-desync-ttl=5",
+    args:
+      "--wf-tcp=80,443 --wf-udp=443,50000-65535 " +
+      "--filter-udp=443 --dpi-desync=fake --dpi-desync-repeats=6 --new " +
+      "--filter-udp=50000-65535 --filter-l7=discord,stun --dpi-desync=fake --dpi-desync-repeats=6 --new " +
+      "--filter-tcp=80 --dpi-desync=fake,split2 --dpi-desync-autottl=2 --dpi-desync-fooling=md5sig --new " +
+      "--filter-tcp=443 --dpi-desync=fake,split2 --dpi-desync-repeats=6 --dpi-desync-fooling=badseq",
     icon: "🎬",
     createdAt: Date.now(),
   },
   {
     id: uuid(),
     name: "Только YouTube",
-    args: '--hostlist=lists/youtube.txt --dpi-desync=split2',
+    args:
+      "--wf-tcp=443 --filter-tcp=443 --dpi-desync=fake,split2 --dpi-desync-repeats=6 --dpi-desync-fooling=badseq",
     icon: "▶",
     createdAt: Date.now(),
   },
   {
     id: uuid(),
     name: "Telegram",
-    args: "--dpi-desync=disorder2 --dpi-desync-ttl=3",
+    args:
+      "--wf-tcp=443 --filter-tcp=443 --dpi-desync=fake,split2 --dpi-desync-repeats=6 --dpi-desync-fooling=md5sig",
     icon: "✈",
     createdAt: Date.now(),
   },
   {
     id: uuid(),
     name: "Максимальный обход",
-    args: "--dpi-desync=split,disorder,fake --dpi-desync-ttl=3 --dpi-desync-split-pos=2",
+    args:
+      "--wf-tcp=80,443 --wf-udp=443,50000-65535 " +
+      "--filter-tcp=443 --dpi-desync=fake,split2 --dpi-desync-repeats=6 --dpi-desync-fooling=badseq --dpi-desync-ttl=3",
     icon: "⚡",
     createdAt: Date.now(),
   },

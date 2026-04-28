@@ -33,3 +33,30 @@ pub fn default_winws_path() -> String {
         "/opt/zapret/bin/winws".to_string()
     }
 }
+
+/// Kill any leftover winws.exe processes from previous app sessions.
+/// Returns the number of processes killed.
+#[tauri::command]
+pub fn kill_orphan_winws() -> u32 {
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        use std::process::Command;
+        // CREATE_NO_WINDOW = 0x08000000
+        let output = Command::new("taskkill")
+            .args(["/F", "/IM", "winws.exe"])
+            .creation_flags(0x0800_0000)
+            .output();
+        match output {
+            Ok(out) => {
+                let stdout = String::from_utf8_lossy(&out.stdout);
+                stdout.matches("SUCCESS:").count() as u32
+            }
+            Err(_) => 0,
+        }
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        0
+    }
+}
