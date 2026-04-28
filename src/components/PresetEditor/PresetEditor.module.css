@@ -1,0 +1,67 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-elem);
+  animation: slide-down 200ms ease-out;
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.btn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background 120ms ease-out, color 120ms ease-out, opacity 120ms ease-out;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  background: var(--accent-blue);
+  color: #fff;
+}
+.btnPrimary:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btnGhost:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.btnDelete {
+  background: transparent;
+  color: var(--accent-red);
+  border: 1px solid var(--border);
+}
+.btnDelete:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.12);
+}

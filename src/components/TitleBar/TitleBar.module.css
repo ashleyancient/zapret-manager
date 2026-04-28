@@ -1,0 +1,54 @@
+.bar {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 0 14px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.logo {
+  color: var(--accent-blue);
+}
+
+.name {
+  font-feature-settings: "ss01";
+}
+
+.controls {
+  display: flex;
+  gap: 2px;
+}
+
+.btn {
+  width: 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  transition: background 120ms ease-out, color 120ms ease-out;
+}
+
+.btn:hover {
+  background: var(--bg-elem);
+  color: var(--text-primary);
+}
+
+.close:hover {
+  background: var(--accent-red);
+  color: #fff;
+}
